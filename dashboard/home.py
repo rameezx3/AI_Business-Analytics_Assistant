@@ -107,7 +107,7 @@ MODULE_DETAILS = [
     (21, "PDF Report Generator", "complete", "Builds downloadable multi-page PDF reports from current verified analytics and provides the saved EDA report and charts in-app.", "KPI, reliable monthly sales, product categories, and evidence-linked findings → selected report template → ReportLab PDF with charts, page numbers, definitions, and limitations; saved Module 6 EDA markdown and figures → in-app viewer/download.", ["Generate executive, sales/product, and customer/fulfillment PDF templates", "Include KPI summaries, charts, evidence, actions, and data limitations", "View/download the saved EDA report and nine charts"]),
     (22, "System Health Dashboard", "complete", "Provides a read-only overview of database health, source-table row counts, data coverage, validation history, and cleaning audit records.", "Authenticated account → read-only dashboard → cached PostgreSQL system snapshot with a manual refresh control; infrastructure configuration stays admin-only.", ["Monitor database and business-table availability", "Review latest validation results and quality findings", "Inspect recent cleaning audit records without modifying data"]),
     (23, "Authentication", "complete", "Provides Admin/User sign-in, user registration, salted password hashing, temporary lockout after repeated failures, and role-based access.", "Admin accounts receive Olist database analytics and Settings; regular accounts receive session-only uploaded-data insights and the demo; passwords use salted hashes in PostgreSQL.", ["Provision the administrator privately", "Allow users to register without admin access", "Keep uploaded files separate from Olist database analytics"]),
-    (24, "Deployment", "up_next", "Production hosting, managed secrets, and release checks remain to be completed.", "Streamlit hosting or another target → HTTPS, protected database/model secrets, and production environment; hosting target to be selected.", ["Choose hosting target", "Configure secrets and database", "Run production smoke checks"]),
+    (24, "Deployment", "complete", "Adds a Vercel Python ASGI entry point, Streamlit routing, deployment exclusions, production-safe writable paths, and setup documentation.", "Streamlit st.App → Vercel Python Function → managed PostgreSQL; secrets stay in Vercel environment settings and generated files use /tmp.", ["Vercel configuration and ASGI adapter included", "Production database and provider keys configured outside Git", "Live release still requires a Vercel account and hosted database"]),
 ]
 
 
@@ -120,7 +120,7 @@ def render_hero(light_theme: bool = False, is_admin: bool = False) -> None:
         <div class="eyebrow"><span class="pulse"></span> ANALYTICS, IN MOTION</div>
         <div class="hero-title">AI Business<br><span>Analytics Assistant</span></div>
         <div class="hero-sub">A clearer view of every signal in your business.</div>
-        <div class="hero-meta"><span>OLIST COMMERCE DATA</span><i></i><span>LIVE INSIGHTS</span><i></i><span>23 / 24 MODULES ACTIVE</span></div>
+        <div class="hero-meta"><span>OLIST COMMERCE DATA</span><i></i><span>LIVE INSIGHTS</span><i></i><span>24 / 24 MODULES READY</span></div>
       </div>
     </div>
     <style>
@@ -153,7 +153,7 @@ def render_hero(light_theme: bool = False, is_admin: bool = False) -> None:
     """
     if not is_admin:
         hero_html = hero_html.replace(
-            "<div class=\"hero-meta\"><span>OLIST COMMERCE DATA</span><i></i><span>LIVE INSIGHTS</span><i></i><span>23 / 24 MODULES ACTIVE</span></div>",
+            "<div class=\"hero-meta\"><span>OLIST COMMERCE DATA</span><i></i><span>LIVE INSIGHTS</span><i></i><span>24 / 24 MODULES READY</span></div>",
             "<div class=\"hero-meta\"><span>YOUR BUSINESS DATA</span><i></i><span>INSTANT INSIGHTS</span><i></i><span>PRIVATE SESSION ANALYSIS</span></div>",
         )
     if light_theme:
@@ -166,7 +166,7 @@ def render_module_roadmap() -> None:
     st.divider()
     title_col, count_col = st.columns([4, 1])
     title_col.markdown("### System Architecture & Build Roadmap")
-    count_col.markdown("<div class='roadmap-progress'>23 complete&nbsp; · &nbsp;1 pending</div>", unsafe_allow_html=True)
+    count_col.markdown("<div class='roadmap-progress'>24 implemented&nbsp; · &nbsp;production release setup pending</div>", unsafe_allow_html=True)
 
     with st.container(key="module_roadmap"):
         for row_start in range(0, len(MODULE_DETAILS), 6):

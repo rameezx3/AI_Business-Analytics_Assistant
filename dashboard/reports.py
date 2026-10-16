@@ -108,6 +108,10 @@ if eda_path.exists():
     )
     chart_dir = Config().app.charts_dir
     chart_paths = sorted(chart_dir.glob("*.png"))
+    if not chart_paths:
+        # Vercel functions can only write to /tmp; keep the committed EDA figures readable.
+        chart_dir = root / "charts" / "generated"
+        chart_paths = sorted(chart_dir.glob("*.png"))
     if chart_paths:
         with st.expander(f"View the {len(chart_paths)} EDA charts"):
             for start in range(0, len(chart_paths), 3):

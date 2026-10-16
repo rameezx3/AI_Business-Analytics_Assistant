@@ -7,12 +7,14 @@ and a historical monthly sales forecast with walk-forward evaluation, plus
 interpretable RFM customer segmentation, evidence-backed business
 recommendations, natural-language data questions with safe SQL, conversational AI chat, and evidence-linked business insights.
 
-**Built so far:** Modules 1-23 (database, import, cleaning, validation, EDA,
+**Built so far:** Modules 1-24 (database, import, cleaning, validation, EDA,
 dashboard, KPIs, chart library, customer analytics, sales analytics, product
 analytics, geography, seller analytics, forecasting, customer segmentation,
-rule-based recommendations, natural-language SQL, conversational AI chat, and business insights), plus the spreadsheet
-Data Lab, role-based accounts, and an admin dashboard for database health,
-validation history, and data-cleaning audit records.
+rule-based recommendations, natural-language SQL, conversational AI chat,
+business insights, PDF reports, role-based accounts, an admin health dashboard,
+and Vercel deployment configuration), plus the spreadsheet Data Lab. Live
+production deployment still requires a Vercel account and hosted PostgreSQL
+connection; see [Vercel deployment guide](docs/deployment_vercel.md).
 
 For the current project-review overview, module status, presentation speech, and
 viva questions, see [docs/project_review_qa.md](docs/project_review_qa.md).

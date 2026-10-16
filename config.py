@@ -23,6 +23,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR: Path = Path(__file__).resolve().parent
+IS_VERCEL = os.getenv("VERCEL", "").lower() == "1" or bool(os.getenv("VERCEL_ENV"))
+VERCEL_WRITABLE_DIR = Path("/tmp") / "ai_business_analytics_assistant"
 
 
 @dataclass(frozen=True)
@@ -35,8 +37,8 @@ class DatabaseConfig:
     user: str = os.getenv("DB_USER", "postgres").strip()
     password: str = os.getenv("DB_PASSWORD", "")
 
-    pool_size: int = int(os.getenv("DB_POOL_SIZE", "5"))
-    max_overflow: int = int(os.getenv("DB_MAX_OVERFLOW", "10"))
+    pool_size: int = int(os.getenv("DB_POOL_SIZE", "1" if IS_VERCEL else "5"))
+    max_overflow: int = int(os.getenv("DB_MAX_OVERFLOW", "0" if IS_VERCEL else "10"))
     pool_timeout: int = int(os.getenv("DB_POOL_TIMEOUT", "30"))
     echo: bool = os.getenv("DB_ECHO", "False").lower() == "true"
 
@@ -61,14 +63,14 @@ class AppConfig:
     """General application-level settings shared across every module."""
 
     app_name: str = "AI Business Analytics Assistant"
-    environment: str = os.getenv("APP_ENV", "development")
-    debug: bool = os.getenv("APP_DEBUG", "True").lower() == "true"
+    environment: str = os.getenv("APP_ENV", "production" if IS_VERCEL else "development")
+    debug: bool = os.getenv("APP_DEBUG", "False" if IS_VERCEL else "True").lower() == "true"
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
 
     data_dir: Path = BASE_DIR / "data"
-    logs_dir: Path = BASE_DIR / "logs"
-    reports_dir: Path = BASE_DIR / "reports" / "generated"
-    charts_dir: Path = BASE_DIR / "charts" / "generated"
+    logs_dir: Path = (VERCEL_WRITABLE_DIR / "logs") if IS_VERCEL else BASE_DIR / "logs"
+    reports_dir: Path = (VERCEL_WRITABLE_DIR / "reports" / "generated") if IS_VERCEL else BASE_DIR / "reports" / "generated"
+    charts_dir: Path = (VERCEL_WRITABLE_DIR / "charts" / "generated") if IS_VERCEL else BASE_DIR / "charts" / "generated"
 
 
 class Config:
@@ -81,10 +83,10 @@ class Config:
         self._validate()
 
     def _ensure_directories(self) -> None:
-        for directory in (
-            self.app.data_dir, self.app.logs_dir,
-            self.app.reports_dir, self.app.charts_dir,
-        ):
+        directories = (self.app.logs_dir, self.app.reports_dir, self.app.charts_dir)
+        if not IS_VERCEL:
+            directories = (self.app.data_dir, *directories)
+        for directory in directories:
             directory.mkdir(parents=True, exist_ok=True)
 
     def _validate(self) -> None:
