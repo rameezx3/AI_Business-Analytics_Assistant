@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Streamlit (project Python 3.11)",
+      "type": "process",
+      "command": "${workspaceFolder}\\venv\\Scripts\\python.exe",
+      "args": ["-m", "streamlit", "run", "${workspaceFolder}/app.py"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    }
+  ]
+}

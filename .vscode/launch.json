@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Streamlit: AI Business Analytics Assistant",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",
+      "python": "${workspaceFolder}\\venv\\Scripts\\python.exe",
+      "args": ["run", "${workspaceFolder}/app.py"],
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
